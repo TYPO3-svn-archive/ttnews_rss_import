@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'ttnews_rss_import'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_ttnewsrssimport_feeds">News Importer for Feeds</label>
+			<label index="tx_ttnewsrssimport_feeds.title">Feed title</label>
+			<label index="tx_ttnewsrssimport_feeds.url">Feed url</label>
+			<label index="tx_ttnewsrssimport_feeds.updateinterval">Update interval in seconds (used by cron job only)</label>
+			<label index="tx_ttnewsrssimport_feeds.lastimport">Last Import</label>
+			<label index="tx_ttnewsrssimport_feeds.lastimportrss">XML of last import</label>
+			<label index="tx_ttnewsrssimport_feeds.newsrecordpid">Storage pid for news records (empty = current page)</label>
+			<label index="tx_ttnewsrssimport_feeds.newscategory">News Category for imported items</label>
+			<label index="tx_ttnewsrssimport_feeds.newcategoryparent">News Parent Category for new categories from feed</label>
+			<label index="tx_ttnewsrssimport_feeds.tabs.news">News Parameters</label>
+			<label index="tx_ttnewsrssimport_feeds.tabs.import">Last Import</label>
+			<label index="tx_ttnewsrssimport_feeds.tabs.wizard">Import Wizard</label>
+			<label index="tx_ttnewsrssimport_feeds.mapping">Field mapping</label>
+			<label index="moduleFunction.tx_ttnewsrssimport_modfunc1">News RSS Importer</label>
+			
+			<label index="tceforms.enterValidUrl">Please enter a valid feed URL!</label>
+			<label index="tceforms.contentLength">Content length</label>
+			<label index="tceforms.preview">Preview</label>
+			<label index="tceforms.source">Source</label>
+			<label index="tceforms.simulate">Simlate import</label>
+			<label index="tceforms.newCategories">New Categories</label>
+			<label index="tceforms.newArticles">New News Articles</label>
+			<label index="tceforms.noItemsToImport">There are no new items to import.</label>
+			<label index="tceforms.import">Import.</label>
+			<label index="tceforms.categoriesImportedInPid">New categories imported in PID %s</label>
+			<label index="tceforms.articlesImportedInPid">New news articles imported in PID %s</label>
+			<label index="tceforms.selectAction">Select one action from above!</label>
+			<label index="tceforms.button.textXML">Test XML Feed</label>
+			<label index="tceforms.button.simulateImport">Simulate Feed Import</label>
+			<label index="tceforms.button.doImport">Import XML Feed</label>
+			<label index="tceforms.button.loadMapping">Load default mapping</label>
+			
+		</languageKey>
+	</data>
+</T3locallang>
