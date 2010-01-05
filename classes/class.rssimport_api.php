@@ -132,6 +132,11 @@ class rssimport_api {
 						'title' => $item['category'],
 						'parent_category' => $conf['config']['newCategoryParentId']
 					);
+					if (isset($conf['config']['default.']['tt_news_cat.'])) {
+						foreach ($conf['config']['default.']['tt_news_cat.'] as $key => $def) {
+							$dataCat['tt_news_cat']['NEWCAT' . $newcat][$key] = $def;
+						}
+					}
 					$category = 'NEWCAT' . $newcat++ . $defaultCats;
 					$conf['newscats'][$item['category']] = $category;
 				}
@@ -140,6 +145,12 @@ class rssimport_api {
 					'hidden' => 0,
 					'category' => $category,
 				);
+
+				if (isset($conf['config']['default.']['tt_news.'])) {
+					foreach ($conf['config']['default.']['tt_news.'] as $key => $def) {
+						$data['tt_news']['NEW' . $i][$key] = $def;
+					}
+				}
 					// map data
 				foreach ($mapping as $key => $map) {
 						if ($map) {
