@@ -28,8 +28,8 @@
  */
 
 
-require_once(PATH_t3lib.'class.t3lib_extobjbase.php');
-
+include_once(PATH_t3lib . 'class.t3lib_extobjbase.php');
+include_once(t3lib_extMgm::extPath('ttnews_rss_import') . 'classes/class.rssimport_api.php');
 
 
 /**
@@ -41,39 +41,38 @@ require_once(PATH_t3lib.'class.t3lib_extobjbase.php');
  */
 class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 
-					/**
-					 * Returns the module menu
-					 *
-					 * @return	Array with menuitems
-					 */
-					function modMenu()	{
-						global $LANG;
+	/**
+	 * Returns the module menu
+	 *
+	 * @return	Array with menuitems
+	 */
+	public function modMenu()	{
+		global $LANG;
 
-						return Array (
-							"tx_ttnewsrssimport_modfunc1_check" => "",
-						);
-					}
+		return array ();
+	}
 
-					/**
-					 * Main method of the module
-					 *
-					 * @return	HTML
-					 */
-					function main()	{
-							// Initializes the module. Done in this function because we may need to re-initialize if data is submitted!
-						global $SOBE,$BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS;
+	/**
+	 * Main method of the module
+	 *
+	 * @return	HTML
+	 */
+	public function main()	{
+			// Initializes the module. Done in this function because we may need to re-initialize if data is submitted!
+		global $SOBE,$BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS;
 
-						$theOutput.=$this->pObj->doc->spacer(5);
-						$theOutput.=$this->pObj->doc->section($LANG->getLL("title"),"Dummy content here...",0,1);
+		$theOutput.=$this->pObj->doc->spacer(5);
+		$theOutput.=$this->pObj->doc->section($LANG->getLL("title"), $this->renderWizard, 0, 1);
 
-						$menu=array();
-						$menu[]=t3lib_BEfunc::getFuncCheck($this->pObj->id,"SET[tx_ttnewsrssimport_modfunc1_check]",$this->pObj->MOD_SETTINGS["tx_ttnewsrssimport_modfunc1_check"]).$LANG->getLL("checklabel");
-						$theOutput.=$this->pObj->doc->spacer(5);
-						$theOutput.=$this->pObj->doc->section("Menu",implode(" - ",$menu),0,1);
 
-						return $theOutput;
-					}
-				}
+
+		return $theOutput;
+	}
+
+	protected function renderWizard() {
+
+	}
+}
 
 
 
