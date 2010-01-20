@@ -39,4 +39,8 @@ class tx_ttnewsrssimport_UpdateTask extends tx_scheduler_Task {
 	}
 
 }
+
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/classes/class.tx_ttnewsrssimport_updatetask_additionalfieldprovider.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/classes/class.tx_ttnewsrssimport_updatetask_additionalfieldprovider.php']);
+}
 ?>

@@ -135,12 +135,12 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 		$theOutput .= '
 		<div class="rssimport-formactions">
 			<input type="checkbox" class="checkbox" name="data[protocol]" value="1" id="check_protocol" ' . ($input['protocol'] ? 'checked="checked"' : '') . ' />
-			<label for="check_protocol">Output protocol</label>
+			<label for="check_protocol">' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.outputProtocol') . '</label>
 			<input type="checkbox" class="checkbox" name="data[log]" value="1" id="check_log" ' . ($input['log'] ? 'checked="checked"' : '') . ' />
-			<label for="check_log">Write to log</label><br /><br />
+			<label for="check_log">' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.writeLog') . '</label><br /><br />
 
-			<input type="submit" name="data[submit_simulate]" value="simulate Import of selected records" />
-			<input type="submit" name="data[submit_do]" value="Do the Import of selected records" />
+			<input type="submit" name="data[submit_simulate]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.simulate') . '" />
+			<input type="submit" name="data[submit_do]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.import') . '" />
 		</div>';
 
 
@@ -163,9 +163,9 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 					$icon = $cats + $news > 0 ? $icon_yes : $icon_no;
 
 					$out[] = $icon . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.import.' . intval($simulate)) .
-					' ' . htmlspecialchars($titles[$key] . ' (' . $key . ')') . ': ' .
-					'Categories: ' . $cats . ' ' .
-					'News: ' . $news . '<br/>' .
+					': ' . htmlspecialchars($titles[$key] . ' (' . $key . ')') . ': ' .
+					$GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.categories') . ': ' . $cats . ' ' .
+					$GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.news') . ': ' . $news . '<br/>' .
 					($protocol ? t3lib_div::view_array($value) : '');
 				}
 				$theOutput .= '<div class="rssimport-protocol">' . implode('<br />', $out) . '</div>';

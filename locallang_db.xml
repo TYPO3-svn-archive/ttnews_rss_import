@@ -47,6 +47,12 @@
 			<label index="tceforms.button.loadMapping">Load default mapping</label>
 			<label index="updateTask.name">News RSS Import - Updater</label>
 			<label index="updateTask.description">Updates rss imports</label>
+			<label index="wizard.outputProtocol">Output protocol</label>
+			<label index="wizard.writeLog">Write to log</label>
+			<label index="wizard.simulate">Simulate import of selected records</label>
+			<label index="wizard.import">Do the import of selected records</label>
+			<label index="wizard.categories">Categories</label>
+			<label index="wizard.news">News</label>
 		</languageKey>
 	</data>
 </T3locallang>
