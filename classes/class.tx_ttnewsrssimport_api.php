@@ -353,9 +353,10 @@ class tx_ttnewsrssimport_Api {
 			$data[$row['uid']] = $this->importFeed($xml, $simulate);
 
 			$this->log[] = date('r') . chr(9) .
-				($simulate ? 'simulate' : 'import') . ' "' . $row['title'] . '" (' . $row['uid'] . ')' . chr(9) .
+				($simulate ? $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.simulate') : $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.import')) . ' "' . $row['title'] . '" (' . $row['uid'] . ')' . chr(9) .
 				$row['url'] . chr(9) .
-				count($data[$row['uid']][0]) . ' categories, ' . count($data[$row['uid']][1]) . ' records';
+				count($data[$row['uid']][0]) . ' ' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.categories') . ', ' .
+				count($data[$row['uid']][1]) . ' ' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.news');
 		}
 		$this->writeLog($data);
 		return $data;
