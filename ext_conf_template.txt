@@ -1,0 +1,4 @@
+	# cat=basic; type=string; label=LLL:EXT:ttnews_rss_import/locallang_db.xml:enterLogFile
+logFile = fileadmin/rssimport.log
+
+

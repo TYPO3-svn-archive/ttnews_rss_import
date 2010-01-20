@@ -29,8 +29,6 @@
 
 
 include_once(PATH_t3lib . 'class.t3lib_extobjbase.php');
-include_once(t3lib_extMgm::extPath('ttnews_rss_import') . 'classes/class.rssimport_api.php');
-
 
 /**
  * Module extension (addition to function menu) 'News RSS Importer' for the 'ttnews_rss_import' extension.
@@ -40,6 +38,8 @@ include_once(t3lib_extMgm::extPath('ttnews_rss_import') . 'classes/class.rssimpo
  * @subpackage	tx_ttnewsrssimport
  */
 class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
+
+	protected $api;
 
 	/**
 	 * Returns the module menu
@@ -58,20 +58,123 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 	 * @return	HTML
 	 */
 	public function main()	{
-			// Initializes the module. Done in this function because we may need to re-initialize if data is submitted!
-		global $SOBE,$BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS;
 
-		$theOutput.=$this->pObj->doc->spacer(5);
-		$theOutput.=$this->pObj->doc->section($LANG->getLL("title"), $this->renderWizard, 0, 1);
+		$this->api = t3lib_div::makeInstance('tx_ttnewsrssimport_Api');
+
+		$input = t3lib_div::_GP('data');
+		$selectedRecords = $input['tx_ttnewsrssimport_feeds'];
+		$theOutput = '';
+
+		$this->pObj->doc->inDocStylesArray[] = '
+		.rssimport-formactions {margin-top:20px;border-top:1px dashed #333;width:500px;padding-top:5px;}
+		.rssimport-protocol {margin:20px 20px 0 0;border:1px solid #aaa;padding:5px;background:#eee;line-height:1;}
+		.rssimport-protocol table {margin:10px 0;}
+		';
+
+		$theOutput .= $this->pObj->doc->spacer(5);
+		$theOutput .= $this->pObj->doc->section($GLOBALS['LANG']->getLL("title"), '', 0, 1);
+
+		$tableLayout = array (
+			'table' => array (
+				'<table border="0" cellspacing="1" cellpadding="2" style="width:auto;" id="typo3-filelist">', '</table>'),
+				'0' => array (
+					'tr' => array (
+						'<tr class="c-headLine" valign="top">', '</tr>'
+					),
+					'defCol' => array ('<td class="cell">', '</td>')
+				),
+				'defRowOdd' => array (
+					'tr' => array ('<tr class="bgColor6">', '</tr>'),
+					'defCol' => array ('<td class="cell">', '</td>')
+				),
+				'defRowEven' => array (
+					'tr' => array ('<tr class="bgColor4">', '</tr>'),
+					'defCol' => array ('<td class="cell">', '</td>')
+				),
+
+		);
+		$table = $titles = array ();
+		$tr = 0;
+
+		$icon_no = '<img ' . t3lib_iconWorks::skinImg($GLOBALS['BACK_PATH'] . t3lib_extMgm::extRelPath('scheduler'), 'res/gfx/status_scheduled.png') . ' alt="" style="margin-right:5px;" />';
+		$icon_yes = '<img ' . t3lib_iconWorks::skinImg($GLOBALS['BACK_PATH'] . t3lib_extMgm::extRelPath('scheduler'), 'res/gfx/status_running.png') . ' alt="" style="margin-right:5px;" />';
+
+		$records = $this->api->getImportRecords('', '', FALSE);
+
+		// Header row
+		$table[$tr][] = '<input type="checkbox" id="checkAll" name="data[checkAll]" value="1" onclick="$$(\'.checkImports\').each(function(e){e.checked=$(\'checkAll\').checked;});" value="1" ' . ($input['checkAll'] ? 'checked="checked"' : '') . ' />'; //all check
+		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.pid');
+		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.uidtitle');
+		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.url');
+		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.updateintervalshort');
+		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.lastimport');
+		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.edit');
+		$tr ++;
+
+		foreach ($records as $row) {
+			$titles[$row['uid']] = $row['title'];
+			$params = '&edit[tx_ttnewsrssimport_feeds][' . $row['uid'] . ']=edit';
+			$edit = '<a href="#" onclick="' . htmlspecialchars(t3lib_BEfunc::editOnClick($params, $GLOBALS['BACK_PATH'])) . '">
+				<img' . t3lib_iconWorks::skinImg($GLOBALS['BACK_PATH'], 'gfx/edit2.gif') . ' title="' . $GLOBALS['LANG']->getLL('editRecord', 1) . '" alt="" />
+			</a>';
+			$last = time() - $row['lastimport'];
+			$icon = $last > $row['updateinterval'] ? $icon_yes : $icon_no;
+
+			$table[$tr][] = '<input type="checkbox" class="checkImports" name="data[tx_ttnewsrssimport_feeds][' .$row['uid'] . ']" value="1" ' . ($selectedRecords[$row['uid']] ? 'checked="checked"' : '') . ' />';
+			$table[$tr][] = htmlspecialchars($row['pid']);
+			$table[$tr][] = '[' . $row['uid'] . '] ' .htmlspecialchars($row['title']) ;
+			$table[$tr][] = htmlspecialchars($row['url']);
+			$table[$tr][] = htmlspecialchars($row['updateinterval']) . ' ' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.seconds');;
+			$table[$tr][] = $icon . ' ' . t3lib_beFunc::calcAge($last) . ' (' . $last . ')';
+			$table[$tr][] = $edit;
+			$tr ++;
+		}
+
+		$theOutput .= $this->pObj->doc->table($table, $tableLayout);
+
+		$theOutput .= '
+		<div class="rssimport-formactions">
+			<input type="checkbox" class="checkbox" name="data[protocol]" value="1" id="check_protocol" ' . ($input['protocol'] ? 'checked="checked"' : '') . ' />
+			<label for="check_protocol">Output protocol</label>
+			<input type="checkbox" class="checkbox" name="data[log]" value="1" id="check_log" ' . ($input['log'] ? 'checked="checked"' : '') . ' />
+			<label for="check_log">Write to log</label><br /><br />
+
+			<input type="submit" name="data[submit_simulate]" value="simulate Import of selected records" />
+			<input type="submit" name="data[submit_do]" value="Do the Import of selected records" />
+		</div>';
 
 
+		if ($input['submit_simulate'] || $input['submit_do']) {
+			$simulate = isset($input['submit_simulate']);
+			$protocol = isset($input['protocol']);
+			$log = isset($input['log']);
+			$this->api->writeToLog = $log;
+			$this->api->forceImport = TRUE;
 
+			if (count($selectedRecords) === 0) {
+				$theOutput .= 'Select at least one record';
+			} else {
+				$out = array();
+				$uids = implode(',', array_keys($selectedRecords));
+				$data = $this->api->doImportForRecords($uids, $simulate);
+				foreach ($data as $key => $value) {
+					$cats = count($value[0]['tt_news_cat']);
+					$news = count($value[1]['tt_news']);
+					$icon = $cats + $news > 0 ? $icon_yes : $icon_no;
+
+					$out[] = $icon . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.import.' . intval($simulate)) .
+					' ' . htmlspecialchars($titles[$key] . ' (' . $key . ')') . ': ' .
+					'Categories: ' . $cats . ' ' .
+					'News: ' . $news . '<br/>' .
+					($protocol ? t3lib_div::view_array($value) : '');
+				}
+				$theOutput .= '<div class="rssimport-protocol">' . implode('<br />', $out) . '</div>';
+			}
+		}
 		return $theOutput;
 	}
 
-	protected function renderWizard() {
 
-	}
 }
 
 

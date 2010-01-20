@@ -22,7 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-include_once(t3lib_extMgm::extPath('ttnews_rss_import') . 'classes/class.rssimport_api.php');
 
 class tx_ttnewsrssimport_tceforms_hooks {
 
@@ -34,7 +33,7 @@ class tx_ttnewsrssimport_tceforms_hooks {
 
 	public function __construct() {
 			// initialize API
-		$this->api = t3lib_div::makeInstance('rssimport_api');
+		$this->api = t3lib_div::makeInstance('tx_ttnewsrssimport_Api');
 	}
 
 	/**
@@ -181,7 +180,7 @@ class tx_ttnewsrssimport_tceforms_hooks {
 	public function renderMappingWizard($params, $pObj) {
 		$conf = $this->api->getTSconfig($params['pid']);
 		$confMapping = is_array($conf['mapping.']) ? is_array($conf['mapping.']) : array();
-		$mapping = $this->api->getMapping($confMapping, rssimport_api::JAVASCRIPT_STRING);
+		$mapping = $this->api->getMapping($confMapping, tx_ttnewsrssimport_Api::JAVASCRIPT_STRING);
 		$onClick = 'document.getElementsByName(\'' . $params['itemName'] . '\')[0].value = ' . $mapping . ';';
 		return '<input type="button" name="feedwizard[getMapping]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.button.loadMapping') . '" onclick="' . htmlspecialchars($onClick) . '" />';
 	}

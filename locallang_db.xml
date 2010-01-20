@@ -8,8 +8,12 @@
 		<languageKey index="default" type="array">
 			<label index="tx_ttnewsrssimport_feeds">News Importer for Feeds</label>
 			<label index="tx_ttnewsrssimport_feeds.title">Feed title</label>
+			<label index="tx_ttnewsrssimport_feeds.uidtitle">[UID] Feed title</label>
 			<label index="tx_ttnewsrssimport_feeds.url">Feed url</label>
+			<label index="tx_ttnewsrssimport_feeds.pid">Page</label>
 			<label index="tx_ttnewsrssimport_feeds.updateinterval">Update interval in seconds (used by cron job only)</label>
+			<label index="tx_ttnewsrssimport_feeds.updateintervalshort">Update interval</label>
+			<label index="tx_ttnewsrssimport_feeds.seconds">seconds</label>
 			<label index="tx_ttnewsrssimport_feeds.lastimport">Last Import</label>
 			<label index="tx_ttnewsrssimport_feeds.lastimportrss">XML of last import</label>
 			<label index="tx_ttnewsrssimport_feeds.newsrecordpid">Storage pid for news records (empty = current page)</label>
@@ -19,8 +23,12 @@
 			<label index="tx_ttnewsrssimport_feeds.tabs.import">Last Import</label>
 			<label index="tx_ttnewsrssimport_feeds.tabs.wizard">Import Wizard</label>
 			<label index="tx_ttnewsrssimport_feeds.mapping">Field mapping</label>
+			<label index="tx_ttnewsrssimport_feeds.edit">Edit</label>
+			<label index="tx_ttnewsrssimport_feeds.import.0">Import</label>
+			<label index="tx_ttnewsrssimport_feeds.import.1">Simulate Import</label>
 			<label index="moduleFunction.tx_ttnewsrssimport_modfunc1">News RSS Importer</label>
-			
+			<label index="enterLogFile">Enter the logfile for the RSS imports:log is written with scheduler task and optionally in functions module</label>
+			<label index="task_uidList">Comma-List of UIDs for Import&lt;br /&gt; (use "*" for all)</label>
 			<label index="tceforms.enterValidUrl">Please enter a valid feed URL!</label>
 			<label index="tceforms.contentLength">Content length</label>
 			<label index="tceforms.preview">Preview</label>
@@ -37,7 +45,8 @@
 			<label index="tceforms.button.simulateImport">Simulate Feed Import</label>
 			<label index="tceforms.button.doImport">Import XML Feed</label>
 			<label index="tceforms.button.loadMapping">Load default mapping</label>
-			
+			<label index="updateTask.name">News RSS Import - Updater</label>
+			<label index="updateTask.description">Updates rss imports</label>
 		</languageKey>
 	</data>
 </T3locallang>

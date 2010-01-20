@@ -39,4 +39,6 @@ $GLOBALS['TYPO3_CONF_VARS']['BE']['AJAX']['ttnewsrssimport::getFeedInWizard'] = 
 t3lib_div::loadTCA('tt_news');
 $TCA['tt_news']['types']['2']['showitem'] = str_replace('short,', 'short,bodytext,', $TCA['tt_news']['types']['2']['showitem']);
 
+
+
 ?>
