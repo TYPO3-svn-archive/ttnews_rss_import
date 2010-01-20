@@ -158,8 +158,8 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 				$uids = implode(',', array_keys($selectedRecords));
 				$data = $this->api->doImportForRecords($uids, $simulate);
 				foreach ($data as $key => $value) {
-					$cats = count($value[0]['tt_news_cat']);
-					$news = count($value[1]['tt_news']);
+					$cats = count($value[0]);
+					$news = count($value[1]);
 					$icon = $cats + $news > 0 ? $icon_yes : $icon_no;
 
 					$out[] = $icon . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.import.' . intval($simulate)) .

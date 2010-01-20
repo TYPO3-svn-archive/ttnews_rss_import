@@ -355,7 +355,7 @@ class tx_ttnewsrssimport_Api {
 			$this->log[] = date('r') . chr(9) .
 				($simulate ? 'simulate' : 'import') . ' "' . $row['title'] . '" (' . $row['uid'] . ')' . chr(9) .
 				$row['url'] . chr(9) .
-				count($data[$row['uid']][0]['tt_news_cat']) . ' categories, ' . count($data[$row['uid']][1]['tt_news']) . ' records';
+				count($data[$row['uid']][0]) . ' categories, ' . count($data[$row['uid']][1]) . ' records';
 		}
 		$this->writeLog($data);
 		return $data;
