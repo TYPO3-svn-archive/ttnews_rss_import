@@ -31,12 +31,16 @@
  * @subpackage	tx_ttnewsrssimport
  *
  */
-
+// Not finished yet!
 class tx_ttnewsrssimport_cli extends t3lib_cli {
 
 	public function execute() {
-		$inp = $_SERVER["argv"];
-		debug($inp);
+		/*
+		if($this->cli_isArg('-r')) {
+			$args = $this->cli_getArgArray('-r',$argv);
+			echo $this->repairReferences(intval($args[0]));
+		}
+		*/
 	}
 }
 

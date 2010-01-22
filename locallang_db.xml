@@ -53,8 +53,7 @@
 			<label index="wizard.import">Do the import of selected records</label>
 			<label index="wizard.categories">Categories</label>
 			<label index="wizard.news">News</label>
-			<label index="wizard.simulate">News</label>
-			<label index="wizard.import">News</label>
+			<label index="wizard.noselected">Select at least one record</label>
 		</languageKey>
 	</data>
 </T3locallang>

@@ -102,11 +102,13 @@ class tx_ttnewsrssimport_tceforms_hooks {
 		} elseif ($in['simulate']) {
 			$xml['newscats'] = $this->api->getNewsCategories($xml['config']['newCategoryParentId']);
 			$data = $this->api->importFeed($xml, 1);
+			$categories = count($data[0]);
+			$news = count($data[1]);
 			$title = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.simulate');
 			$content = '<p style="font-weight:bold;margin:5px 15px;">' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.newCategories') . ': ' .
-				count($data[0]['tt_news_cat']) . '<br />' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.newArticles') . ': ' .
-				count($data[1]['tt_news']) . '<br /></p>';
-			if (count($data[0]['tt_news_cat']) + count($data[1]['tt_news']) > 0) {
+				$categories . '<br />' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.newArticles') . ': ' .
+				$news . '<br /></p>';
+			if ($categories + $news > 0) {
 				$content .= t3lib_div::view_array($data);
 			} else {
 				$content .= '<p>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.noItemsToImport') . '</p>';
@@ -115,13 +117,15 @@ class tx_ttnewsrssimport_tceforms_hooks {
 			$this->lastXML = $xml['xml'];
 			$xml['newscats'] = $this->api->getNewsCategories($xml['config']['newCategoryParentId']);
 			$data = $this->api->importFeed($xml);
+			$categories = count($data[0]);
+			$news = count($data[1]);
 			$title = '' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.import') . '';
 			$content = '<p style="font-weight:bold;margin:5px 15px;">' .
 				sprintf($GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.categoriesImportedInPid'), $xml['config']['categoryStoragePid']) . ': ' .
-				count($data[0]['tt_news_cat']) . '<br />' .
+				$categories . '<br />' .
 				sprintf($GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.articlesImportedInPid'), $xml['config']['pid']) . ': ' .
-				count($data[1]['tt_news']) . '<br /></p>';
-			if (count($data[0]['tt_news_cat']) + count($data[1]['tt_news']) > 0) {
+				$news . '<br /></p>';
+			if ($categories + $news > 0) {
 				$content .= t3lib_div::view_array($data);
 			} else {
 				$content .= '<p>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.noItemsToImport') . '</p>';

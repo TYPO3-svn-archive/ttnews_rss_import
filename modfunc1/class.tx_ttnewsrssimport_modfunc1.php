@@ -139,8 +139,8 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 			<input type="checkbox" class="checkbox" name="data[log]" value="1" id="check_log" ' . ($input['log'] ? 'checked="checked"' : '') . ' />
 			<label for="check_log">' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.writeLog') . '</label><br /><br />
 
-			<input type="submit" name="data[submit_simulate]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.simulate') . '" />
-			<input type="submit" name="data[submit_do]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.import') . '" />
+			<input type="submit" name="data[submit_simulate]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.import.1') . '" />
+			<input type="submit" name="data[submit_do]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.import.0') . '" />
 		</div>';
 
 
@@ -152,7 +152,7 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 			$this->api->forceImport = TRUE;
 
 			if (count($selectedRecords) === 0) {
-				$theOutput .= 'Select at least one record';
+				$theOutput .= $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.noselected');
 			} else {
 				$out = array();
 				$uids = implode(',', array_keys($selectedRecords));
