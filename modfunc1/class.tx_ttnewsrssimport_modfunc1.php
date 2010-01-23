@@ -73,7 +73,7 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 
 		$extIcon = '<img ' . t3lib_iconWorks::skinImg($GLOBALS['BACK_PATH'] . t3lib_extMgm::extRelPath('ttnews_rss_import'), 'ext_icon.gif') . ' alt="" style="margin-right:5px;" />';
 		$theOutput .= $this->pObj->doc->spacer(5);
-		$theOutput .= $this->pObj->doc->section($extIcon . $GLOBALS['LANG']->sL("LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.title"), '', FALSE, TRUE, FALSE, TRUE);
+		$theOutput .= $this->pObj->doc->section($extIcon . $GLOBALS['LANG']->sL("LLL:EXT:ttnews_rss_import/locallang.xml:wizard.title"), '', FALSE, TRUE, FALSE, TRUE);
 
 		$tableLayout = array (
 			'table' => array (
@@ -104,12 +104,12 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 
 		// Header row
 		$table[$tr][] = '<input type="checkbox" id="checkAll" name="data[checkAll]" value="1" onclick="$$(\'.checkImports\').each(function(e){e.checked=$(\'checkAll\').checked;});" value="1" ' . ($input['checkAll'] ? 'checked="checked"' : '') . ' />'; //all check
-		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.pid');
-		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.uidtitle');
-		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.url');
-		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.updateintervalshort');
-		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.lastimport');
-		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.edit');
+		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.pid');
+		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.uidtitle');
+		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.url');
+		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.updateintervalshort');
+		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.lastimport');
+		$table[$tr][] = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.edit');
 		$tr ++;
 
 		foreach ($records as $row) {
@@ -125,7 +125,7 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 			$table[$tr][] = htmlspecialchars($row['pid']);
 			$table[$tr][] = '[' . $row['uid'] . '] ' .htmlspecialchars($row['title']) ;
 			$table[$tr][] = htmlspecialchars($row['url']);
-			$table[$tr][] = htmlspecialchars($row['updateinterval']) . ' ' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.seconds');;
+			$table[$tr][] = htmlspecialchars($row['updateinterval']) . ' ' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.seconds');;
 			$table[$tr][] = $icon . ' ' . t3lib_beFunc::calcAge($last) . ' (' . $last . ')';
 			$table[$tr][] = $edit;
 			$tr ++;
@@ -136,12 +136,12 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 		$theOutput .= '
 		<div class="rssimport-formactions">
 			<input type="checkbox" class="checkbox" name="data[protocol]" value="1" id="check_protocol" ' . ($input['protocol'] ? 'checked="checked"' : '') . ' />
-			<label for="check_protocol">' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.outputProtocol') . '</label>
+			<label for="check_protocol">' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:wizard.outputProtocol') . '</label>
 			<input type="checkbox" class="checkbox" name="data[log]" value="1" id="check_log" ' . ($input['log'] ? 'checked="checked"' : '') . ' />
-			<label for="check_log">' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.writeLog') . '</label><br /><br />
+			<label for="check_log">' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:wizard.writeLog') . '</label><br /><br />
 
-			<input type="submit" name="data[submit_simulate]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.import.1') . '" />
-			<input type="submit" name="data[submit_do]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.import.0') . '" />
+			<input type="submit" name="data[submit_simulate]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.import.1') . '" />
+			<input type="submit" name="data[submit_do]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.import.0') . '" />
 		</div>';
 
 
@@ -153,7 +153,7 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 			$this->api->forceImport = TRUE;
 
 			if (count($selectedRecords) === 0) {
-				$theOutput .= '<div class="rssimport-protocol">' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.noselected') . '</div>';
+				$theOutput .= '<div class="rssimport-protocol">' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:wizard.noselected') . '</div>';
 			} else {
 				$out = array();
 				$uids = implode(',', array_keys($selectedRecords));
@@ -163,10 +163,10 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 					$news = count($value[1]);
 					$icon = $cats + $news > 0 ? $icon_yes : $icon_no;
 
-					$out[] = $icon . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.import.' . intval($simulate)) .
+					$out[] = $icon . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.import.' . intval($simulate)) .
 					': ' . htmlspecialchars($titles[$key] . ' (' . $key . ')') . ': ' .
-					$GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.categories') . ': ' . $cats . ' ' .
-					$GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.news') . ': ' . $news . '<br/>' .
+					$GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:wizard.categories') . ': ' . $cats . ' ' .
+					$GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:wizard.news') . ': ' . $news . '<br/>' .
 					($protocol ? t3lib_div::view_array($value) : '');
 				}
 				$theOutput .= '<div class="rssimport-protocol">' . implode('<br />', $out) . '</div>';

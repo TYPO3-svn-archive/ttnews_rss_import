@@ -25,7 +25,7 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 		),
 		'title' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.title',
+			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.title',
 			'config' => array (
 				'type' => 'input',
 				'size' => '30',
@@ -33,7 +33,7 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 		),
 		'url' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.url',
+			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.url',
 			'config' => array (
 				'type' => 'input',
 				'size' => '30',
@@ -41,7 +41,7 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 		),
 		'updateinterval' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.updateinterval',
+			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.updateinterval',
 			'config' => array (
 				'type' => 'input',
 				'size' => '30',
@@ -51,7 +51,7 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 		),
 		'lastimport' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.lastimport',
+			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.lastimport',
 			'config' => array (
 				'type'     => 'input',
 				'size'     => '12',
@@ -63,7 +63,7 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 		),
 		'lastimportrss' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.lastimportrss',
+			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.lastimportrss',
 			'config' => array (
 				'type' => 'text',
 				'cols' => '30',
@@ -72,7 +72,7 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 		),
 		'newsrecordpid' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.newsrecordpid',
+			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.newsrecordpid',
 			'config' => array (
 				'type' => 'group',
 				'internal_type' => 'db',
@@ -90,7 +90,7 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 		),
 		'newscategory' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.newscategory',
+			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.newscategory',
 			'config' => array (
 				'type' => 'select',
 				'form_type' => 'user',
@@ -104,7 +104,7 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 		),
 		'newcategoryparent' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.newcategoryparent',
+			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.newcategoryparent',
 			'config' => array (
 				'type' => 'select',
 				'form_type' => 'user',
@@ -118,7 +118,7 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 		),
 		'mapping' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.mapping',
+			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.mapping',
 			'config' => array (
 				'type' => 'text',
 				'cols' => '30',
@@ -145,9 +145,9 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 	),
 	'types' => array (
 		'0' => array('showitem' => 'hidden;;1;;1-1-1, title;;;;2-2-2, url;;2;;2-2-2,
-			--div--;LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.tabs.news, newsrecordpid, newscategory,newcategoryparent,
-			--div--;LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.tabs.import, lastimport, lastimportrss,
-			--div--;LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds.tabs.wizard, mapping, wizOutput')
+			--div--;LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.tabs.news, newsrecordpid, newscategory,newcategoryparent,
+			--div--;LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.tabs.import, lastimport, lastimportrss,
+			--div--;LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.tabs.wizard, mapping, wizOutput')
 	),
 	'palettes' => array (
 		'1' => array('showitem' => ''),

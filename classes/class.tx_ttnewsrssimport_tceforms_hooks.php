@@ -48,7 +48,7 @@ class tx_ttnewsrssimport_tceforms_hooks {
 		$row['storagePid'] = $row['newsrecordpid'] ? $row['newsrecordpid'] : $row['pid'];
 
 		if (!$row['url']) {
-			return str_replace('|', $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.enterValidUrl'), $this->container);
+			return str_replace('|', $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.enterValidUrl'), $this->container);
 		} else {
 				// get the feed
 			$content = $this->getFeedInWizard($row);
@@ -94,24 +94,24 @@ class tx_ttnewsrssimport_tceforms_hooks {
 			$hlObj = t3lib_div::makeInstance('t3lib_syntaxhl');
 			$feed = t3lib_div::getURL($row['url']);
 			$title = 'Feed: <a href="' . $row['url'] . '" target="_blank" />' . $row['url'] . '</a>';
-			$content = '<p>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.contentLength') . ': ' . t3lib_div::formatSize(strlen($feed)) . '</p>
-			<h4>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.preview') . ':</h4>
+			$content = '<p>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.contentLength') . ': ' . t3lib_div::formatSize(strlen($feed)) . '</p>
+			<h4>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.preview') . ':</h4>
 			<iframe width="800px" height="300" frameborder="1" src="' . $row['url'] . '"></iframe>
-			<h4>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.source') . ':</h4>
+			<h4>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.source') . ':</h4>
 			<pre style="background:#fff;border: 1px solid #333; padding: 10px; overflow: scroll; width: 800px;height: 400px;">' . $hlObj->highLight_DS($feed) . '</pre>';
 		} elseif ($in['simulate']) {
 			$xml['newscats'] = $this->api->getNewsCategories($xml['config']['newCategoryParentId']);
 			$data = $this->api->importFeed($xml, 1);
 			$categories = count($data[0]);
 			$news = count($data[1]);
-			$title = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.simulate');
-			$content = '<p style="font-weight:bold;margin:5px 15px;">' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.newCategories') . ': ' .
-				$categories . '<br />' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.newArticles') . ': ' .
+			$title = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.simulate');
+			$content = '<p style="font-weight:bold;margin:5px 15px;">' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.newCategories') . ': ' .
+				$categories . '<br />' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.newArticles') . ': ' .
 				$news . '<br /></p>';
 			if ($categories + $news > 0) {
 				$content .= t3lib_div::view_array($data);
 			} else {
-				$content .= '<p>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.noItemsToImport') . '</p>';
+				$content .= '<p>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.noItemsToImport') . '</p>';
 			}
 		} elseif ($in['import']) {
 			$this->lastXML = $xml['xml'];
@@ -119,19 +119,19 @@ class tx_ttnewsrssimport_tceforms_hooks {
 			$data = $this->api->importFeed($xml);
 			$categories = count($data[0]);
 			$news = count($data[1]);
-			$title = '' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.import') . '';
+			$title = '' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.import') . '';
 			$content = '<p style="font-weight:bold;margin:5px 15px;">' .
-				sprintf($GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.categoriesImportedInPid'), $xml['config']['categoryStoragePid']) . ': ' .
+				sprintf($GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.categoriesImportedInPid'), $xml['config']['categoryStoragePid']) . ': ' .
 				$categories . '<br />' .
-				sprintf($GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.articlesImportedInPid'), $xml['config']['pid']) . ': ' .
+				sprintf($GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.articlesImportedInPid'), $xml['config']['pid']) . ': ' .
 				$news . '<br /></p>';
 			if ($categories + $news > 0) {
 				$content .= t3lib_div::view_array($data);
 			} else {
-				$content .= '<p>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.noItemsToImport') . '</p>';
+				$content .= '<p>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.noItemsToImport') . '</p>';
 			}
 		} else {
-			$title = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.selectAction');
+			$title = $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.selectAction');
 			$content = '';
 		}
 
@@ -152,11 +152,11 @@ class tx_ttnewsrssimport_tceforms_hooks {
 	 */
 	protected function getControls() {
 		return '
-			<input type="submit" name="feedwizard[testfeed]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.button.textXML') . '" />
+			<input type="submit" name="feedwizard[testfeed]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.button.textXML') . '" />
 			&nbsp;
-			<input type="submit" name="feedwizard[simulate]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.button.simulateImport') . '" />
+			<input type="submit" name="feedwizard[simulate]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.button.simulateImport') . '" />
 			&nbsp;
-			<input type="submit" name="feedwizard[import]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.button.doImport') . '" />
+			<input type="submit" name="feedwizard[import]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.button.doImport') . '" />
 		';
 	}
 
@@ -186,7 +186,7 @@ class tx_ttnewsrssimport_tceforms_hooks {
 		$confMapping = is_array($conf['mapping.']) ? is_array($conf['mapping.']) : array();
 		$mapping = $this->api->getMapping($confMapping, tx_ttnewsrssimport_Api::JAVASCRIPT_STRING);
 		$onClick = 'document.getElementsByName(\'' . $params['itemName'] . '\')[0].value = ' . $mapping . ';';
-		return '<input type="button" name="feedwizard[getMapping]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:tceforms.button.loadMapping') . '" onclick="' . htmlspecialchars($onClick) . '" />';
+		return '<input type="button" name="feedwizard[getMapping]" value="' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.button.loadMapping') . '" onclick="' . htmlspecialchars($onClick) . '" />';
 	}
 
 	/**

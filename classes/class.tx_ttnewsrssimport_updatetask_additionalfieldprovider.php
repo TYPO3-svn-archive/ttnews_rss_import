@@ -70,7 +70,7 @@ class tx_ttnewsrssimport_UpdateTask_AdditionalFieldProvider implements tx_schedu
 		$additionalFields = array();
 		$additionalFields[$fieldID] = array(
 			'code'     => $fieldCode,
-			'label'    => 'LLL:EXT:ttnews_rss_import/locallang_db.xml:task_uidList',
+			'label'    => 'LLL:EXT:ttnews_rss_import/locallang.xml:task_uidList',
 			'cshKey'   => '_MOD_tools_txschedulerM1',
 			'cshLabel' => $fieldID
 		);

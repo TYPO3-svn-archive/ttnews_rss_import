@@ -7,7 +7,7 @@ t3lib_extMgm::allowTableOnStandardPages('tx_ttnewsrssimport_feeds');
 
 $TCA['tx_ttnewsrssimport_feeds'] = array (
 	'ctrl' => array (
-		'title' => 'LLL:EXT:ttnews_rss_import/locallang_db.xml:tx_ttnewsrssimport_feeds',
+		'title' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds',
 		'label' => 'title',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
@@ -28,7 +28,7 @@ if (TYPO3_MODE == 'BE') {
 		'web_func',
 		'tx_ttnewsrssimport_modfunc1',
 		t3lib_extMgm::extPath($_EXTKEY) . 'modfunc1/class.tx_ttnewsrssimport_modfunc1.php',
-		'LLL:EXT:ttnews_rss_import/locallang_db.xml:moduleFunction.tx_ttnewsrssimport_modfunc1',
+		'LLL:EXT:ttnews_rss_import/locallang.xml:moduleFunction.tx_ttnewsrssimport_modfunc1',
 		'wiz'
 	);
 }
