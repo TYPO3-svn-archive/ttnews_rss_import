@@ -153,7 +153,7 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 			$this->api->forceImport = TRUE;
 
 			if (count($selectedRecords) === 0) {
-				$theOutput .= $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.noselected');
+				$theOutput .= '<div class="rssimport-protocol">' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.noselected') . '</div>';
 			} else {
 				$out = array();
 				$uids = implode(',', array_keys($selectedRecords));
