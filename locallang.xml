@@ -6,6 +6,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
+			<label index="title">News RSS Importer</label>
 			<label index="tx_ttnewsrssimport_feeds">News Importer for Feeds</label>
 			<label index="tx_ttnewsrssimport_feeds.title">Feed title</label>
 			<label index="tx_ttnewsrssimport_feeds.uidtitle">[UID] Feed title</label>
