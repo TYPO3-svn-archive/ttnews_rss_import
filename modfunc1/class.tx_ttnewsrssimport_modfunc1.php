@@ -71,8 +71,9 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 		.rssimport-protocol table {margin:10px 0;}
 		';
 
+		$extIcon = '<img ' . t3lib_iconWorks::skinImg($GLOBALS['BACK_PATH'] . t3lib_extMgm::extRelPath('ttnews_rss_import'), 'ext_icon.gif') . ' alt="" style="margin-right:5px;" />';
 		$theOutput .= $this->pObj->doc->spacer(5);
-		$theOutput .= $this->pObj->doc->section($GLOBALS['LANG']->getLL("title"), '', 0, 1);
+		$theOutput .= $this->pObj->doc->section($extIcon . $GLOBALS['LANG']->sL("LLL:EXT:ttnews_rss_import/locallang_db.xml:wizard.title"), '', FALSE, TRUE, FALSE, TRUE);
 
 		$tableLayout = array (
 			'table' => array (
