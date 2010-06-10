@@ -126,7 +126,19 @@ class tx_ttnewsrssimport_Api {
 		$item = $guid = array();
 		$newcat = 1;
 		$defaultCats = $conf['config']['cats'] ? ',' . $conf['config']['cats'] : '';
-		$confMapping = is_array($conf['config']['mapping.']) ? is_array($conf['config']['mapping.']) : array();
+		if ($conf['config']['mapping.'] !== '') {
+			if (is_array($conf['config']['mapping.'])) {
+					// TODO: is it really useful?
+				$confMapping = $conf['config']['mapping.'];
+			} else {
+				$lines = t3lib_div::trimExplode("\n", $conf['config']['mapping.']);
+				$confMapping = array();
+				foreach ($lines as $line) {
+					$parts = t3lib_div::trimExplode('=', $line, 2);
+					$confMapping[$parts[0]] = $parts[1];
+				}
+			}
+		}
 		$mapping = $this->getMapping($confMapping);
 
 

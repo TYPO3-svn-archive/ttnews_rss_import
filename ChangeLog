@@ -1,3 +1,7 @@
+2010-06-10  Xavier Perseguers  <typo3@perseguers.ch>
+
+	* Fixed bug #8124: User mapping is not taken into account
+
 2009-12-12 Steffen  <>
 
 	* initial code generated with kickstarter
