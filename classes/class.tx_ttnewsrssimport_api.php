@@ -90,21 +90,33 @@ class tx_ttnewsrssimport_Api {
 	 * @return array raw and proceeded feed
 	 */
 	protected function readFeedIntoArray($feedUrl) {
-		$feed = t3lib_div::getURL($feedUrl);
-
+		
+		
+		$xml = t3lib_div::getURL($feedUrl,0);
+						
 		$this->counter = 0;
 		$res = preg_replace_callback(
 			'|<([/]?)item|',
 			array('tx_ttnewsrssimport_Api', countItems),
-			$feed
+			$xml
 		);
 		$feed = array(
-			'xml' => $feed,
+			'xml' => $xml,
 			'proc' => t3lib_div::xml2array($res),
 			'count' => $this->counter / 2
 		);
-			// charset conversion
-		$GLOBALS['LANG']->csConvObj->convArray($feed, 'utf-8', $GLOBALS['LANG']->charSet, TRUE);
+		
+		//fix for bug #6635 : Import Issues with non-UTF8 encodings. Charset of the RSS file was not detected.
+		//Author : Alban Cousinie
+		//extracting charset from RSS file
+		$rss = new DOMDocument();
+		$rss->loadXML($feed['xml']);
+		$rssCharset = $rss->encoding;
+		
+		// charset conversion
+		$GLOBALS['LANG']->csConvObj->convArray($feed, $rssCharset, $GLOBALS['LANG']->charSet, TRUE);
+		//en of fix for bug #6635
+		
 		return $feed;
 	}
 
@@ -126,19 +138,31 @@ class tx_ttnewsrssimport_Api {
 		$item = $guid = array();
 		$newcat = 1;
 		$defaultCats = $conf['config']['cats'] ? ',' . $conf['config']['cats'] : '';
-		if ($conf['config']['mapping.'] !== '') {
-			if (is_array($conf['config']['mapping.'])) {
-					// TODO: is it really useful?
-				$confMapping = $conf['config']['mapping.'];
-			} else {
-				$lines = t3lib_div::trimExplode("\n", $conf['config']['mapping.']);
-				$confMapping = array();
-				foreach ($lines as $line) {
-					$parts = t3lib_div::trimExplode('=', $line, 2);
-					$confMapping[$parts[0]] = $parts[1];
-				}
+		
+		//fix for bug #6589 : field mapping was ignored when typed into the RSS importer DB record mapping field
+		//Author : Alban Cousinie
+		$confMapping = is_array($conf['config']['mapping.']) ? $conf['config']['mapping.'] : array();
+		if(is_array($conf['config']['mapping.'])){
+			//mapping is exploitable directly as it is already a PHP array
+			$confMapping = $conf['config']['mapping.'];
+		}
+		else{
+			
+			//here we have the mapping as a text configuration. Convert it to an array
+			$confMapping = array();
+			$arrayLines = preg_split("/(\r\n)/", $conf['config']['mapping.']);
+			
+			foreach($arrayLines as $lineIndex => $lineContent){
+				$lineValues =  explode('=',$lineContent);
+				$confMapping[trim($lineValues[0])] = trim($lineValues[1]);
 			}
 		}
+		//END of fix for bug #6589
+		//former buggy code left below (TODO : REMOVE THIS OLD CODE) :
+		/*
+		$confMapping = is_array($conf['config']['mapping.']) ? is_array($conf['config']['mapping.']) : array();
+		*/
+		
 		$mapping = $this->getMapping($confMapping);
 
 
@@ -221,7 +245,7 @@ class tx_ttnewsrssimport_Api {
 				foreach ($data['tt_news'] as $key => $value) {
 					if (substr($value['category'], 0, 6) === 'NEWCAT') {
 						$tmp = explode(',', $value['category']);
-						$data['tt_news'][$key]['category'] = $ret[$tmp[0]] . $defaultCats;
+						$data['tt_news'][$key]['category'] = ltrim($ret[$tmp[0]] . $defaultCats, ',');
 					}
 				}
 			}
@@ -382,6 +406,21 @@ class tx_ttnewsrssimport_Api {
 	 */
 	protected function countItems($matches) {
 		return $matches[0] . floor($this->counter++ / 2);
+	}
+	
+	/**
+	 * Writes an Array to the logfile. Useful for debugging the scheduler task.
+	 *
+	 * @param array $theArray
+	 */
+	protected function arrayToLog($theArray){
+		foreach($theArray as $index => $value){
+			if(is_array($value)){
+				$this->log[] = "[".$index."] => ARRAY";
+				$this->log[] = "\t".$this->arrayToLog($value);
+			}
+			else $this->log[] = "[".$index."] => ".$value;
+		}
 	}
 
 	protected function writeLog($data) {
