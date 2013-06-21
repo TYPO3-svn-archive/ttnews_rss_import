@@ -1,7 +1,11 @@
+2013-06-21  Xavier Perseguers  <xavier@typo3.org>
+
+	* [TASK] Raise compatibility to TYPO3 4.7.99 (known to work)
+
 2010-06-10  Xavier Perseguers  <typo3@perseguers.ch>
 
-	* Fixed bug #8124: User mapping is not taken into account
+	* [BUGFIX] #8124: User mapping is not taken into account
 
-2009-12-12 Steffen  <>
+2009-12-12 Steffen Kamper <info@sk-typo3.de>
 
-	* initial code generated with kickstarter
+	* [TASK] Initial code generated with kickstarter
