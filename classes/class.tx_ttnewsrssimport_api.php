@@ -49,7 +49,7 @@ class tx_ttnewsrssimport_Api {
 		'links' => 'link',
 		'datetime' => 'pubDate',
 		'author' => 'dc:creator|author',
-		'bodytext' => 'content:encoded',
+		'bodytext' => 'content:encoded|description',
 		'ext_url' => 'guid|link',
 	);
 
@@ -90,23 +90,11 @@ class tx_ttnewsrssimport_Api {
 	 * @return array raw and proceeded feed
 	 */
 	protected function readFeedIntoArray($feedUrl) {
-		$feed = t3lib_div::getURL($feedUrl);
-
-		$this->counter = 0;
-		$res = preg_replace_callback(
-			'|<([/]?)item|',
-			array('tx_ttnewsrssimport_Api', 'countItems'),
-			$feed
-		);
-		$feed = array(
-			'xml' => $feed,
-			'proc' => t3lib_div::xml2array($res),
-			'count' => $this->counter / 2
-		);
+		$feedXml = t3lib_div::getURL($feedUrl);
 
 		try {
 			$rss = new DOMDocument();
-			$rss->loadXML($feed['xml']);
+			$rss->loadXML($feedXml);
 			$rssCharset = strtolower($rss->encoding);
 		} catch (Exception $e) {
 			// Just to be sure
@@ -114,7 +102,20 @@ class tx_ttnewsrssimport_Api {
 		}
 
 		// charset conversion
-		$GLOBALS['LANG']->csConvObj->convArray($feed, $rssCharset, $GLOBALS['LANG']->charSet, TRUE);
+		$GLOBALS['LANG']->csConvObj->conv($feedXml, $rssCharset, $GLOBALS['LANG']->charSet, TRUE);
+
+		$this->counter = 0;
+		$feedProc = preg_replace_callback(
+			'|<([/]?)item|',
+			array('tx_ttnewsrssimport_Api', 'countItems'),
+			$feedXml
+		);
+
+		$feed = array(
+			'xml' => $feedXml,
+			'proc' => t3lib_div::xml2array($feedProc),
+			'count' => $this->counter / 2
+		);
 
 		return $feed;
 	}
@@ -145,21 +146,24 @@ class tx_ttnewsrssimport_Api {
 				// generate new record array
 			for ($i = 0; $i < intval($conf['count']); $i++) {
 				$item = $conf['proc']['channel']['item' . $i];
-				if (isset($conf['newscats'][$item['category']])) {
-					$category = $conf['newscats'][$item['category']] . $defaultCats;
-				} else {
-					$dataCat['tt_news_cat']['NEWCAT' . $newcat] = array(
-						'pid' => $catPid,
-						'title' => $item['category'],
-						'parent_category' => $conf['config']['newCategoryParentId']
-					);
-					if (isset($conf['config']['default.']['tt_news_cat.'])) {
-						foreach ($conf['config']['default.']['tt_news_cat.'] as $key => $def) {
-							$dataCat['tt_news_cat']['NEWCAT' . $newcat][$key] = $def;
+				$category = '';
+				if (!empty($item['category'])) {
+					if (isset($conf['newscats'][$item['category']])) {
+						$category = $conf['newscats'][$item['category']] . $defaultCats;
+					} else {
+						$dataCat['tt_news_cat']['NEWCAT' . $newcat] = array(
+							'pid' => $catPid,
+							'title' => $item['category'],
+							'parent_category' => $conf['config']['newCategoryParentId']
+						);
+						if (isset($conf['config']['default.']['tt_news_cat.'])) {
+							foreach ($conf['config']['default.']['tt_news_cat.'] as $key => $def) {
+								$dataCat['tt_news_cat']['NEWCAT' . $newcat][$key] = $def;
+							}
 						}
+						$category = 'NEWCAT' . $newcat++ . $defaultCats;
+						$conf['newscats'][$item['category']] = $category;
 					}
-					$category = 'NEWCAT' . $newcat++ . $defaultCats;
-					$conf['newscats'][$item['category']] = $category;
 				}
 				$data['tt_news']['NEW' . $i] = array(
 					'pid' => $pid,
@@ -177,7 +181,10 @@ class tx_ttnewsrssimport_Api {
 					if ($map) {
 						$parts = t3lib_div::trimExplode('|', $map);
 						foreach ($parts as $part) {
-							if (isset($item[$part])) {
+							if (preg_match('/^"(.*)"$/', $part, $value)) {
+								$data['tt_news']['NEW' . $i][$key] = $value[1];
+								break;
+							} elseif (isset($item[$part])) {
 								$data['tt_news']['NEW' . $i][$key] = $key == 'datetime' ? strtotime($item[$part]) : $item[$part];
 								if ($key == 'ext_url') {
 									$guid[$item[$part]] = 'NEW' . $i;
