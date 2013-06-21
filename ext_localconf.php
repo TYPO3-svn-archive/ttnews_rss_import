@@ -8,7 +8,7 @@ if (TYPO3_MODE == 'BE') {
 		'extension'        => $_EXTKEY,
 		'title'            => 'LLL:EXT:' . $_EXTKEY . '/locallang.xml:updateTask.name',
 		'description'      => 'LLL:EXT:' . $_EXTKEY . '/locallang.xml:updateTask.description',
-		'additionalFields' => tx_ttnewsrssimport_UpdateTask_AdditionalFieldProvider,
+		'additionalFields' => 'tx_ttnewsrssimport_UpdateTask_AdditionalFieldProvider',
 	);
 }
 

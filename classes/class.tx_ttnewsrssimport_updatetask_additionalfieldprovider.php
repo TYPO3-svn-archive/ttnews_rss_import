@@ -106,8 +106,8 @@ class tx_ttnewsrssimport_UpdateTask_AdditionalFieldProvider implements tx_schedu
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/classes/class.tx_ttnewsrssimport_updatetask.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/classes/class.tx_ttnewsrssimport_updatetask.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/classes/class.tx_ttnewsrssimport_updatetask.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/classes/class.tx_ttnewsrssimport_updatetask.php']);
 }
 
 ?>

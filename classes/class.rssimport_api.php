@@ -86,7 +86,7 @@ class rssimport_api {
 		$this->counter = 0;
 		$res = preg_replace_callback(
 			'|<([/]?)item|',
-			array('rssimport_api', countItems),
+			array('rssimport_api', 'countItems'),
 			$feed
 		);
 		$feed = array(

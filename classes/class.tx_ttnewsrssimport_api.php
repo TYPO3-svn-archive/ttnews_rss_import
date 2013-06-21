@@ -90,33 +90,32 @@ class tx_ttnewsrssimport_Api {
 	 * @return array raw and proceeded feed
 	 */
 	protected function readFeedIntoArray($feedUrl) {
-		
-		
-		$xml = t3lib_div::getURL($feedUrl,0);
-						
+		$feed = t3lib_div::getURL($feedUrl);
+
 		$this->counter = 0;
 		$res = preg_replace_callback(
 			'|<([/]?)item|',
-			array('tx_ttnewsrssimport_Api', countItems),
-			$xml
+			array('tx_ttnewsrssimport_Api', 'countItems'),
+			$feed
 		);
 		$feed = array(
-			'xml' => $xml,
+			'xml' => $feed,
 			'proc' => t3lib_div::xml2array($res),
 			'count' => $this->counter / 2
 		);
-		
-		//fix for bug #6635 : Import Issues with non-UTF8 encodings. Charset of the RSS file was not detected.
-		//Author : Alban Cousinie
-		//extracting charset from RSS file
-		$rss = new DOMDocument();
-		$rss->loadXML($feed['xml']);
-		$rssCharset = $rss->encoding;
-		
+
+		try {
+			$rss = new DOMDocument();
+			$rss->loadXML($feed['xml']);
+			$rssCharset = strtolower($rss->encoding);
+		} catch (Exception $e) {
+			// Just to be sure
+			$rssCharset = 'utf-8';
+		}
+
 		// charset conversion
 		$GLOBALS['LANG']->csConvObj->convArray($feed, $rssCharset, $GLOBALS['LANG']->charSet, TRUE);
-		//en of fix for bug #6635
-		
+
 		return $feed;
 	}
 
@@ -135,36 +134,12 @@ class tx_ttnewsrssimport_Api {
 		$dataCat['tt_news_cat'] = array();
 		$pid = $conf['config']['storagePid'] ? $conf['config']['storagePid'] : $conf['config']['pid'];
 		$catPid = $conf['config']['categoryStoragePid'] ? $conf['config']['categoryStoragePid'] : $pid;
-		$item = $guid = array();
+		$guid = array();
 		$newcat = 1;
 		$defaultCats = $conf['config']['cats'] ? ',' . $conf['config']['cats'] : '';
-		
-		//fix for bug #6589 : field mapping was ignored when typed into the RSS importer DB record mapping field
-		//Author : Alban Cousinie
 		$confMapping = is_array($conf['config']['mapping.']) ? $conf['config']['mapping.'] : array();
-		if(is_array($conf['config']['mapping.'])){
-			//mapping is exploitable directly as it is already a PHP array
-			$confMapping = $conf['config']['mapping.'];
-		}
-		else{
-			
-			//here we have the mapping as a text configuration. Convert it to an array
-			$confMapping = array();
-			$arrayLines = preg_split("/(\r\n)/", $conf['config']['mapping.']);
-			
-			foreach($arrayLines as $lineIndex => $lineContent){
-				$lineValues =  explode('=',$lineContent);
-				$confMapping[trim($lineValues[0])] = trim($lineValues[1]);
-			}
-		}
-		//END of fix for bug #6589
-		//former buggy code left below (TODO : REMOVE THIS OLD CODE) :
-		/*
-		$confMapping = is_array($conf['config']['mapping.']) ? is_array($conf['config']['mapping.']) : array();
-		*/
-		
-		$mapping = $this->getMapping($confMapping);
 
+		$mapping = $this->getMapping($confMapping);
 
 		if (isset($conf['proc']) && intval($conf['count']) > 0) {
 				// generate new record array
@@ -199,7 +174,7 @@ class tx_ttnewsrssimport_Api {
 				}
 					// map data
 				foreach ($mapping as $key => $map) {
-						if ($map) {
+					if ($map) {
 						$parts = t3lib_div::trimExplode('|', $map);
 						foreach ($parts as $part) {
 							if (isset($item[$part])) {
@@ -263,7 +238,7 @@ class tx_ttnewsrssimport_Api {
 	}
 
 	/**
-	 * Get the mapping, merge default with given configurtion
+	 * Get the mapping, merge default with given configuration
 	 *
 	 * @param array $mapping configured mapping
 	 * @param int $format one of the constants
@@ -407,7 +382,7 @@ class tx_ttnewsrssimport_Api {
 	protected function countItems($matches) {
 		return $matches[0] . floor($this->counter++ / 2);
 	}
-	
+
 	/**
 	 * Writes an Array to the logfile. Useful for debugging the scheduler task.
 	 *

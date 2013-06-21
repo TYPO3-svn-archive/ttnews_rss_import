@@ -34,13 +34,16 @@ class tx_ttnewsrssimport_UpdateTask extends tx_scheduler_Task {
 	}
 
 	public function execute() {
+		if (!is_object($this->api)) {
+			$this->api = t3lib_div::makeInstance('tx_ttnewsrssimport_Api');
+		}
 		$data = $this->api->doImportForRecords($this->task_uidList);
 		return TRUE;
 	}
 
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/classes/class.tx_ttnewsrssimport_updatetask_additionalfieldprovider.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/classes/class.tx_ttnewsrssimport_updatetask_additionalfieldprovider.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/classes/class.tx_ttnewsrssimport_updatetask_additionalfieldprovider.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/classes/class.tx_ttnewsrssimport_updatetask_additionalfieldprovider.php']);
 }
 ?>

@@ -86,6 +86,14 @@ class tx_ttnewsrssimport_tceforms_hooks {
 				$xml['config']['newCategoryParentId'] = $row['newcategoryparent'] ? $this->api->getPidsFromPA($row['newcategoryparent']) : $xml['config']['newCategoryParentId'];
 					//cats
 				$xml['config']['cats'] = $row['newscategory'] ? $this->api->getPidsFromPA($row['newscategory']) : $xml['config']['defaultCategories'];
+				$row['mapping'] = t3lib_div::trimExplode(CR, $row['mapping'], TRUE);
+				$newMapping = array();
+				foreach ($row['mapping'] as $mapping) {
+					list($key, $value) = t3lib_div::trimExplode('=', $mapping, FALSE, 2);
+					$newMapping[$key] = $value;
+				}
+				$row['mapping'] = $newMapping;
+				unset($newMapping);
 				$xml['config']['mapping.'] = $row['mapping'] ? $row['mapping'] : $xml['config']['mapping.'];
 			}
 		}
@@ -109,7 +117,7 @@ class tx_ttnewsrssimport_tceforms_hooks {
 				$categories . '<br />' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.newArticles') . ': ' .
 				$news . '<br /></p>';
 			if ($categories + $news > 0) {
-				$content .= t3lib_div::view_array($data);
+				$content .= t3lib_utility_Debug::viewArray($data);
 			} else {
 				$content .= '<p>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.noItemsToImport') . '</p>';
 			}
@@ -126,7 +134,7 @@ class tx_ttnewsrssimport_tceforms_hooks {
 				sprintf($GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.articlesImportedInPid'), $xml['config']['pid']) . ': ' .
 				$news . '<br /></p>';
 			if ($categories + $news > 0) {
-				$content .= t3lib_div::view_array($data);
+				$content .= t3lib_utility_Debug::viewArray($data);
 			} else {
 				$content .= '<p>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.noItemsToImport') . '</p>';
 			}

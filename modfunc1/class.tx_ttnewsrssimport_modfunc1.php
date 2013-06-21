@@ -167,7 +167,7 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 					': ' . htmlspecialchars($titles[$key] . ' (' . $key . ')') . ': ' .
 					$GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:wizard.categories') . ': ' . $cats . ' ' .
 					$GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:wizard.news') . ': ' . $news . '<br/>' .
-					($protocol ? t3lib_div::view_array($value) : '');
+					($protocol ? t3lib_utility_Debug::viewArray($value) : '');
 				}
 				$theOutput .= '<div class="rssimport-protocol">' . implode('<br />', $out) . '</div>';
 			}
@@ -180,8 +180,8 @@ class tx_ttnewsrssimport_modfunc1 extends t3lib_extobjbase {
 
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/modfunc1/class.tx_ttnewsrssimport_modfunc1.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/modfunc1/class.tx_ttnewsrssimport_modfunc1.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/modfunc1/class.tx_ttnewsrssimport_modfunc1.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ttnews_rss_import/modfunc1/class.tx_ttnewsrssimport_modfunc1.php']);
 }
 
 ?>
