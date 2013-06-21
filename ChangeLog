@@ -1,5 +1,6 @@
 2013-06-21  Xavier Perseguers  <xavier@typo3.org>
 
+	* [TASK] #49302: Assign categories from multiple import configurations
 	* [BUGFIX] #6589: Problems with category and field mapping settings
 	* [TASK] Cleanup and monster import from Jigal's fixes
 	* [TASK] Raise compatibility to TYPO3 4.7.99 (known to work)

@@ -146,11 +146,11 @@ class tx_ttnewsrssimport_Api {
 				// generate new record array
 			for ($i = 0; $i < intval($conf['count']); $i++) {
 				$item = $conf['proc']['channel']['item' . $i];
-				$category = '';
-				if (!empty($item['category'])) {
-					if (isset($conf['newscats'][$item['category']])) {
-						$category = $conf['newscats'][$item['category']] . $defaultCats;
-					} else {
+				if (isset($conf['newscats'][$item['category']])) {
+					$category = $conf['newscats'][$item['category']] . $defaultCats;
+				} else {
+					$category = trim($defaultCats, ',');
+					if (!empty($item['category'])) {
 						$dataCat['tt_news_cat']['NEWCAT' . $newcat] = array(
 							'pid' => $catPid,
 							'title' => $item['category'],
@@ -161,8 +161,9 @@ class tx_ttnewsrssimport_Api {
 								$dataCat['tt_news_cat']['NEWCAT' . $newcat][$key] = $def;
 							}
 						}
-						$category = 'NEWCAT' . $newcat++ . $defaultCats;
-						$conf['newscats'][$item['category']] = $category;
+						$newCategory = 'NEWCAT' . $newcat++;
+						$conf['newscats'][$item['category']] = $newCategory;
+						$category .= ',' . $newCategory;
 					}
 				}
 				$data['tt_news']['NEW' . $i] = array(
@@ -197,14 +198,48 @@ class tx_ttnewsrssimport_Api {
 
 			}
 
-				// unset records which already exists
+			// Unset records which already exists in same pid
+			// but update existing records with additional categories
 			$guids = t3lib_div::csvValues(array_keys($guid));
-			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('ext_url', 'tt_news', 'ext_url IN(' . $guids . ')' . t3lib_BEfunc::deleteClause('tt_news'));
+			$res = $this->getDatabaseConnection()->exec_SELECTquery(
+				'uid, ext_url',
+				'tt_news',
+				'ext_url IN(' . $guids . ') AND pid=' . $pid . t3lib_BEfunc::deleteClause('tt_news'));
 			if ($res) {
-				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+				while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
+					$item = $data['tt_news'][$guid[$row['ext_url']]];
+					$existingCategories = $this->getDatabaseConnection()->exec_SELECTgetRows(
+						'uid_foreign',
+						'tt_news_cat_mm',
+						'uid_local=' . $row['uid'],
+						'',
+						'',
+						'',
+						'uid_foreign'
+					);
+					if (count($existingCategories) > 0) {
+						$existingCategories = array_keys($existingCategories);
+					}
+					$newCategories = t3lib_div::intExplode(',', $item['category'], TRUE);
+					$categories = array_unique(array_merge($existingCategories, $newCategories));
+					asort($categories);
+					if (count($categories) > 1 && $categories[0] == 0) {
+						unset($categories[0]);
+					}
+
+					// Do not create the news again...
 					unset ($data['tt_news'][$guid[$row['ext_url']]]);
+
+					if ($categories != $existingCategories) {
+						// ... but update the categories of the existing one
+						$data['tt_news'][$row['uid']] = array(
+							'category' => implode(',', $categories),
+						);
+					}
 				}
 			}
+
+			$this->getDatabaseConnection()->sql_free_result($res);
 		}
 
 
@@ -279,8 +314,8 @@ class tx_ttnewsrssimport_Api {
 	 */
 	public function getNewsCategories($parentId = 0) {
 		$arr = array();
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_news_cat', 'parent_category=' . intval($parentId) . t3lib_BEfunc::deleteClause('tt_news_cat'));
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+		$res = $this->getDatabaseConnection()->exec_SELECTquery('*', 'tt_news_cat', 'parent_category=' . intval($parentId) . t3lib_BEfunc::deleteClause('tt_news_cat'));
+		while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
 			$arr[$row['title']] = $row['uid'];
 		}
 		return $arr;
@@ -327,7 +362,7 @@ class tx_ttnewsrssimport_Api {
 	 * @return array $rows
 	 */
 	public function getImportRecords($pidList = '', $uidList = '', $respectInterval = TRUE) {
-		$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+		$rows = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'*',
 			'tx_ttnewsrssimport_feeds',
 			'1' . ($pidList ? ' AND pid IN(' . $pidList . ')' : '') .
@@ -416,6 +451,16 @@ class tx_ttnewsrssimport_Api {
 			}
 		}
 	}
+
+	/**
+	 * Returns the database connection.
+	 *
+	 * @return t3lib_DB
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
+	}
+
 }
 
 ?>
