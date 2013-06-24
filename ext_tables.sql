@@ -13,12 +13,12 @@ CREATE TABLE tx_ttnewsrssimport_feeds (
 	url tinytext,
 	updateinterval int(11) DEFAULT '0' NOT NULL,
 	lastimport int(11) DEFAULT '0' NOT NULL,
-	lastimportrss blob,
+	lastimportrss longtext,
 	newsrecordpid tinytext,
 	newscategory varchar(255) DEFAULT '' NOT NULL,
 	newcategoryparent varchar(255) DEFAULT '' NOT NULL,
 	mapping tinytext,
-	
+
 	PRIMARY KEY (uid),
 	KEY parent (pid)
 );

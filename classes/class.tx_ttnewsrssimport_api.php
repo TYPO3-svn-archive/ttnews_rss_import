@@ -125,6 +125,7 @@ class tx_ttnewsrssimport_Api {
 	 *
 	 * @param array $conf
 	 * @param boolean $simulate
+	 * @return integer|array
 	 */
 	public function importFeed($conf, $simulate = FALSE) {
 		if (!isset($conf['url'])) {
@@ -138,7 +139,17 @@ class tx_ttnewsrssimport_Api {
 		$guid = array();
 		$newcat = 1;
 		$defaultCats = $conf['config']['cats'] ? ',' . $conf['config']['cats'] : '';
-		$confMapping = is_array($conf['config']['mapping.']) ? $conf['config']['mapping.'] : array();
+
+		if (is_array($conf['config']['mapping.'])) {
+			$confMapping = $conf['config']['mapping.'];
+		} else {
+			$confMapping = array();
+			$mappingLines = t3lib_div::trimExplode(LF, $conf['config']['mapping.'], TRUE);
+			foreach ($mappingLines as $mappingLine) {
+				list($key, $value) = t3lib_div::trimExplode('=', $mappingLine, FALSE, 2);
+				$confMapping[$key] = $value;
+			}
+		}
 
 		$mapping = $this->getMapping($confMapping);
 
@@ -257,6 +268,12 @@ class tx_ttnewsrssimport_Api {
 			if (count($dataCat)) {
 				$tce->start($dataCat, array());
 				$tce->process_datamap();
+
+				if (count($tce->errorLog)) {
+					$errorMessage = implode(LF, $tce->errorLog);
+					throw new RuntimeException($errorMessage, 1372074690);
+				}
+
 				$ret = $tce->substNEWwithIDs;
 					//subst new cats
 				foreach ($data['tt_news'] as $key => $value) {
@@ -269,6 +286,11 @@ class tx_ttnewsrssimport_Api {
 				//write news
 			$tce->start($data, array());
 			$tce->process_datamap();
+
+			if (count($tce->errorLog)) {
+				$errorMessage = implode(LF, $tce->errorLog);
+				throw new RuntimeException($errorMessage, 1372074664);
+			}
 
 			unset($data['tx_ttnewsrssimport_feeds']);
 			return array($dataCat['tt_news_cat'], $data['tt_news']);

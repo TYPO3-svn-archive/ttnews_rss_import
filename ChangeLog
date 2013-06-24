@@ -1,3 +1,7 @@
+2013-06-24  Xavier Perseguers  <xavier@typo3.org>
+
+	* [BUGFIX] #49377: Scheduler import fails
+
 2013-06-21  Xavier Perseguers  <xavier@typo3.org>
 
 	* [TASK] #49302: Assign categories from multiple import configurations
