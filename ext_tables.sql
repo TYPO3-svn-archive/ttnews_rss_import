@@ -12,6 +12,7 @@ CREATE TABLE tx_ttnewsrssimport_feeds (
 	title tinytext,
 	url tinytext,
 	updateinterval int(11) DEFAULT '0' NOT NULL,
+	synchronizerss tinyint(4) DEFAULT '0' NOT NULL,
 	lastimport int(11) DEFAULT '0' NOT NULL,
 	lastimportrss longtext,
 	newsrecordpid tinytext,

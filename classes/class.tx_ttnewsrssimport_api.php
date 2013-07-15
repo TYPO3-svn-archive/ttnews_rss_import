@@ -217,7 +217,7 @@ class tx_ttnewsrssimport_Api {
 			$res = $this->getDatabaseConnection()->exec_SELECTquery(
 				'uid, ext_url',
 				'tt_news',
-				'ext_url IN(' . $guids . ') AND pid=' . $pid . t3lib_BEfunc::deleteClause('tt_news'));
+				'ext_url IN (' . $guids . ') AND pid=' . $pid . t3lib_BEfunc::deleteClause('tt_news'));
 			if ($res) {
 				while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
 					$item = $data['tt_news'][$guid[$row['ext_url']]];
@@ -240,14 +240,24 @@ class tx_ttnewsrssimport_Api {
 						unset($categories[0]);
 					}
 
-					// Do not create the news again...
-					unset ($data['tt_news'][$guid[$row['ext_url']]]);
+					if (!$conf['synchronizerss']) {
+						// Do not create the news again...
+						unset ($data['tt_news'][$guid[$row['ext_url']]]);
 
-					if ($categories != $existingCategories) {
-						// ... but update the categories of the existing one
-						$data['tt_news'][$row['uid']] = array(
-							'category' => implode(',', $categories),
-						);
+						if ($categories != $existingCategories) {
+							// ... but update the categories of the existing one
+							$data['tt_news'][$row['uid']] = array(
+								'category' => implode(',', $categories),
+							);
+						}
+					} else {
+						$news = $data['tt_news'][$guid[$row['ext_url']]];
+						$news['category'] = implode(',', $categories);
+
+						// Do not create the news again...
+						unset ($data['tt_news'][$guid[$row['ext_url']]]);
+						// ... but update it
+						$data['tt_news'][$row['uid']] = $news;
 					}
 				}
 			}

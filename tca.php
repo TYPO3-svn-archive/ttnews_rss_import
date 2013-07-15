@@ -8,51 +8,59 @@ $wizConfig = array(
 	'params' => array()
 );
 
-$TCA['tx_ttnewsrssimport_feeds'] = array (
+$TCA['tx_ttnewsrssimport_feeds'] = array(
 	'ctrl' => $TCA['tx_ttnewsrssimport_feeds']['ctrl'],
-	'interface' => array (
-		'showRecordFieldList' => 'hidden,title,url,updateinterval,lastimport,errors,lasterrorstring,lastimportrss,newsrecordpid,newscategory'
+	'interface' => array(
+		'showRecordFieldList' => 'hidden,title,url,updateinterval,synchronizerss,lastimport,errors,lasterrorstring,lastimportrss,newsrecordpid,newscategory'
 	),
 	'feInterface' => $TCA['tx_ttnewsrssimport_feeds']['feInterface'],
-	'columns' => array (
-		'hidden' => array (
+	'columns' => array(
+		'hidden' => array(
 			'exclude' => 1,
 			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
-			'config'  => array (
+			'config'  => array(
 				'type'    => 'check',
 				'default' => '0'
 			)
 		),
-		'title' => array (
+		'title' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.title',
-			'config' => array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
 			)
 		),
-		'url' => array (
+		'url' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.url',
-			'config' => array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
 			)
 		),
-		'updateinterval' => array (
+		'updateinterval' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.updateinterval',
-			'config' => array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
 				'eval' => 'int',
 				'default'  => '7200'
 			)
 		),
-		'lastimport' => array (
+		'synchronizerss' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.synchronizerss',
+			'config' => array(
+				'type' => 'check',
+				'default' => '0',
+			)
+		),
+		'lastimport' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.lastimport',
-			'config' => array (
+			'config' => array(
 				'type'     => 'input',
 				'size'     => '12',
 				'max'      => '20',
@@ -61,19 +69,19 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 				'default'  => '0'
 			)
 		),
-		'lastimportrss' => array (
+		'lastimportrss' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.lastimportrss',
-			'config' => array (
+			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
 				'rows' => '5',
 			)
 		),
-		'newsrecordpid' => array (
+		'newsrecordpid' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.newsrecordpid',
-			'config' => array (
+			'config' => array(
 				'type' => 'group',
 				'internal_type' => 'db',
 				'allowed' => 'pages',
@@ -88,10 +96,10 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 				),
 			)
 		),
-		'newscategory' => array (
+		'newscategory' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.newscategory',
-			'config' => array (
+			'config' => array(
 				'type' => 'select',
 				'form_type' => 'user',
 				'userFunc' => 'tx_ttnews_TCAform_selectTree->renderCategoryFields',
@@ -102,10 +110,10 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 				'maxitems' => 500,
 			),
 		),
-		'newcategoryparent' => array (
+		'newcategoryparent' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.newcategoryparent',
-			'config' => array (
+			'config' => array(
 				'type' => 'select',
 				'form_type' => 'user',
 				'userFunc' => 'tx_ttnews_TCAform_selectTree->renderCategoryFields',
@@ -116,10 +124,10 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 				'maxitems' => 2,
 			),
 		),
-		'mapping' => array (
+		'mapping' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.mapping',
-			'config' => array (
+			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
 				'rows' => '5',
@@ -135,21 +143,21 @@ $TCA['tx_ttnewsrssimport_feeds'] = array (
 				),
 			)
 		),
-		'wizOutput' => Array (
+		'wizOutput' => array(
 			'label' => 'Importer Wizard',
-			'config' => Array (
+			'config' => array(
 				'type' => 'user',
 				'userFunc' => 'EXT:ttnews_rss_import/classes/class.tx_ttnewsrssimport_tceforms_hooks.php:tx_ttnewsrssimport_tceforms_hooks->wizard',
 			),
 		),
 	),
-	'types' => array (
-		'0' => array('showitem' => 'hidden;;1;;1-1-1, title;;;;2-2-2, url;;2;;2-2-2,
+	'types' => array(
+		'0' => array('showitem' => 'hidden;;1;;1-1-1, title;;;;2-2-2, url;;2;;2-2-2, synchronizerss;;;;2-2-2,
 			--div--;LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.tabs.news, newsrecordpid, newscategory,newcategoryparent,
 			--div--;LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.tabs.import, lastimport, lastimportrss,
 			--div--;LLL:EXT:ttnews_rss_import/locallang.xml:tx_ttnewsrssimport_feeds.tabs.wizard, mapping, wizOutput')
 	),
-	'palettes' => array (
+	'palettes' => array(
 		'1' => array('showitem' => ''),
 		'2' => array('showitem' => 'updateinterval')
 	)

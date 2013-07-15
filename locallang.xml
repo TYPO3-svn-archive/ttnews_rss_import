@@ -13,6 +13,7 @@
 			<label index="tx_ttnewsrssimport_feeds.url">Feed url</label>
 			<label index="tx_ttnewsrssimport_feeds.pid">Page</label>
 			<label index="tx_ttnewsrssimport_feeds.updateinterval">Update interval in seconds (used by cron job only)</label>
+			<label index="tx_ttnewsrssimport_feeds.synchronizerss">Synchronize already imported entries with RSS feed</label>
 			<label index="tx_ttnewsrssimport_feeds.updateintervalshort">Update interval</label>
 			<label index="tx_ttnewsrssimport_feeds.seconds">seconds</label>
 			<label index="tx_ttnewsrssimport_feeds.lastimport">Last Import</label>

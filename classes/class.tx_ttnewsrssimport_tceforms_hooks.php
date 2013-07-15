@@ -73,6 +73,7 @@ class tx_ttnewsrssimport_tceforms_hooks {
 		if ($in['testfeed'] || $in['simulate'] || $in['import']) {
 			$xml = $this->api->getFeed($row['url']);
 			$xml['url'] = $row['url'];
+			$xml['synchronizerss'] = $row['synchronizerss'];
 
 			if ($in['simulate'] || $in['import']) {
 				$xml['config'] = $this->api->getTSconfig($row['storagePid']);
