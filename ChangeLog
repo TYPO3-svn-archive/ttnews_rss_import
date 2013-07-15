@@ -1,3 +1,7 @@
+2013-07-15  Xavier Perseguers  <xavier@typo3.org>
+
+	* [BUGFIX] #49534: Timezone is not considered
+
 2013-06-24  Xavier Perseguers  <xavier@typo3.org>
 
 	* [BUGFIX] #49377: Scheduler import fails

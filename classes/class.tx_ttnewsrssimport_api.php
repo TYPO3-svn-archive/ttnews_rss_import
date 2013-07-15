@@ -127,7 +127,9 @@ class tx_ttnewsrssimport_Api {
 	 * @param boolean $simulate
 	 * @return integer|array
 	 */
-	public function importFeed($conf, $simulate = FALSE) {
+	public function importFeed(array $conf, $simulate = FALSE) {
+		date_default_timezone_set('UTC');
+
 		if (!isset($conf['url'])) {
 			return -1;
 		}
