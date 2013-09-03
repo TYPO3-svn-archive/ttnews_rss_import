@@ -424,7 +424,7 @@ class tx_ttnewsrssimport_Api {
 			$tmp['url'] = $row['url'];
 			$tmp['config'] = $this->getTSconfig($row['pid']);
 
-			$pid = $row['newsrecordpid'] ? $row['newsrecordpid'] : (isset($tmp['config']['storagePid']) ? $tmp['config']['storagePid'] : $row['pid']);
+			$pid = $row['newsrecordpid'] ? $row['newsrecordpid'] : (!empty($tmp['config']['storagePid']) ? $tmp['config']['storagePid'] : $row['pid']);
 			$catPid = !empty($tmp['config']['categoryStoragePid']) ? $tmp['config']['categoryStoragePid'] : $pid;
 
 			$tmp['config']['pid'] = $this->getPidsFromPA($pid);
@@ -434,6 +434,7 @@ class tx_ttnewsrssimport_Api {
 				//cats
 			$tmp['config']['cats'] = $row['newscategory'] ? $this->getPidsFromPA($row['newscategory']) : $tmp['config']['defaultCategories'];
 			$tmp['config']['mapping.'] = $row['mapping'] ? $row['mapping'] : $tmp['config']['mapping.'];
+			$tmp['synchronizerss'] = $row['synchronizerss'];
 
 			$tmp['newscats'] = $this->getNewsCategories($tmp['config']['newCategoryParentId']);
 			$xml = array_merge($tmp, $xml);

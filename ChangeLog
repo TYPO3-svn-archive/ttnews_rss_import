@@ -1,3 +1,7 @@
+2013-09-03  Xavier Perseguers  <xavier@typo3.org>
+
+	* [BUGFIX] #50024: Synchronization does not work as scheduler task
+
 2013-07-15  Xavier Perseguers  <xavier@typo3.org>
 
 	* [FEATURE] #50024: Synchronization of feed entries
