@@ -136,11 +136,11 @@ class tx_ttnewsrssimport_Api {
 
 		$data = $dataCat = array();
 		$dataCat['tt_news_cat'] = array();
-		$pid = $conf['config']['storagePid'] ? $conf['config']['storagePid'] : $conf['config']['pid'];
-		$catPid = $conf['config']['categoryStoragePid'] ? $conf['config']['categoryStoragePid'] : $pid;
+		$pid = !empty($conf['config']['storagePid']) ? $conf['config']['storagePid'] : $conf['config']['pid'];
+		$catPid = !empty($conf['config']['categoryStoragePid']) ? $conf['config']['categoryStoragePid'] : $pid;
 		$guid = array();
 		$newcat = 1;
-		$defaultCats = $conf['config']['cats'] ? ',' . $conf['config']['cats'] : '';
+		$defaultCats = !empty($conf['config']['cats']) ? ',' . $conf['config']['cats'] : '';
 
 		if (is_array($conf['config']['mapping.'])) {
 			$confMapping = $conf['config']['mapping.'];
@@ -424,8 +424,8 @@ class tx_ttnewsrssimport_Api {
 			$tmp['url'] = $row['url'];
 			$tmp['config'] = $this->getTSconfig($row['pid']);
 
-			$pid = $row['newsrecordpid'] ? $row['newsrecordpid'] : ($tmp['config']['storagePid'] ? $tmp['config']['storagePid'] : $row['pid']);
-			$catPid = $tmp['config']['categoryStoragePid'] ? $tmp['config']['categoryStoragePid'] : $pid;
+			$pid = $row['newsrecordpid'] ? $row['newsrecordpid'] : (isset($tmp['config']['storagePid']) ? $tmp['config']['storagePid'] : $row['pid']);
+			$catPid = !empty($tmp['config']['categoryStoragePid']) ? $tmp['config']['categoryStoragePid'] : $pid;
 
 			$tmp['config']['pid'] = $this->getPidsFromPA($pid);
 			$tmp['config']['categoryStoragePid'] = $this->getPidsFromPA($catPid);

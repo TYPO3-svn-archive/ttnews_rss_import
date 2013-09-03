@@ -24,6 +24,7 @@
 
 class tx_ttnewsrssimport_UpdateTask extends tx_scheduler_Task {
 
+	/** @var tx_ttnewsrssimport_Api */
 	protected $api;
 	public $task_uidList;
 
