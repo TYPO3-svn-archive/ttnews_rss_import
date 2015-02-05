@@ -100,14 +100,13 @@ class tx_ttnewsrssimport_tceforms_hooks {
 		}
 
 		if ($in['testfeed']) {
-			$hlObj = t3lib_div::makeInstance('t3lib_syntaxhl');
 			$feed = t3lib_div::getURL($row['url']);
 			$title = 'Feed: <a href="' . $row['url'] . '" target="_blank" />' . $row['url'] . '</a>';
 			$content = '<p>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.contentLength') . ': ' . t3lib_div::formatSize(strlen($feed)) . '</p>
 			<h4>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.preview') . ':</h4>
 			<iframe width="800px" height="300" frameborder="1" src="' . $row['url'] . '"></iframe>
 			<h4>' . $GLOBALS['LANG']->sL('LLL:EXT:ttnews_rss_import/locallang.xml:tceforms.source') . ':</h4>
-			<pre style="background:#fff;border: 1px solid #333; padding: 10px; overflow: scroll; width: 800px;height: 400px;">' . $hlObj->highLight_DS($feed) . '</pre>';
+			<pre style="background:#fff;border: 1px solid #333; padding: 10px; overflow: scroll; width: 800px;height: 400px;">' . htmlspecialchars($feed) . '</pre>';
 		} elseif ($in['simulate']) {
 			$xml['newscats'] = $this->api->getNewsCategories($xml['config']['newCategoryParentId']);
 			$data = $this->api->importFeed($xml, 1);
