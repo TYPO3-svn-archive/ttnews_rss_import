@@ -28,7 +28,9 @@
  */
 
 
-include_once(PATH_t3lib . 'class.t3lib_extobjbase.php');
+if (version_compare(TYPO3_version, '6.0.0', '<')) {
+	include_once(PATH_t3lib . 'class.t3lib_extobjbase.php');
+}
 
 /**
  * Module extension (addition to function menu) 'News RSS Importer' for the 'ttnews_rss_import' extension.
