@@ -1,6 +1,16 @@
+2015-02-17  Xavier Perseguers  <xavier@causal.ch>
+
+	* [TASK] Raise version to 1.0.0
+
+2015-02-05  Xavier Perseguers  <xavier@causal.ch>
+
+	* [BUGFIX] #61552: t3lib_syntaxhl is not available anymore
+	* [BUGFIX] #61552: Incompatibility with TYPO3 6.2
+
 2013-09-03  Xavier Perseguers  <xavier@typo3.org>
 
 	* [BUGFIX] #50024: Synchronization does not work as scheduler task
+	* [TASK] Minor cleanup
 
 2013-07-15  Xavier Perseguers  <xavier@typo3.org>
 
